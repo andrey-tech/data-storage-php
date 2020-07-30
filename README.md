@@ -20,6 +20,7 @@
 ## Требования
 
 - PHP >= 7.0.
+- Трейт [`\App\Utils\JsonUtils`](https://github.com/andrey-tech/utils-php), содержащий методы для работы c данными в формате JSON.
 - Произвольный автозагрузчик классов, реализующий стандарт [PSR-4](https://www.php-fig.org/psr/psr-4/).
 
 <a id="%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0"></a>
