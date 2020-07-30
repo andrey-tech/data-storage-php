@@ -1,0 +1,25 @@
+{
+    "name": "andrey-tech/data-storage-php",
+    "description": "Простое хранилище данных в виде ключ-значение в JSON-файлах с разделяемой блокировкой на чтение и эксклюзивной блокировкой на запись",
+    "keywords": [ "storage", "json", "files" ],
+    "homepage": "https://github.com/andrey-tech/data-storage-php",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "andrey-tech",
+            "homepage": "https://github.com/andrey-tech/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "ext-json": "*",
+        "andrey-tech/utils-php": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/App"
+        }
+    }
+}
