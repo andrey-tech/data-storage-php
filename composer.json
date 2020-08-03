@@ -14,8 +14,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "ext-json": "*",
-        "andrey-tech/utils-php": "*"
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

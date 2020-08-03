@@ -8,13 +8,14 @@
  * @see https://github.com/andrey-tech/data-storage-php
  * @license   MIT
  *
- * @version 1.1.0
+ * @version 1.2.0
  *
  * v1.0.0 (16.07.2020) Начальный релиз
  * v1.0.1 (19.07.2000) Исправления для трейта \App\Utils\JsonUtils
  * v1.1.0 (30.07.2000) Исправлена проверка пустых аргументов в методе update().
  *                     Добавлен метод hasKey().
  *                     Добавлена проверка имени хранилища.
+ * v1.2.0 (03.08.2000) Отказ от трейта \App\Utils\JsonUtils: добавлены методы tpJson() и fromJson()
  *
  */
 
@@ -22,12 +23,8 @@ declare(strict_types = 1);
 
 namespace App\DataStorage;
 
-use App\Utils\JsonUtils;
-
 class FileStorage
 {
-    use JsonUtils;
-
     /**
      * Каталог для хранения файлов в хранилище
      * @var string
@@ -220,7 +217,7 @@ class FileStorage
             ARRAY_FILTER_USE_KEY
         );
 
-        $content = $this->toJson($data, [ JSON_PRETTY_PRINT ]);
+        $content = $this->toJson($data);
 
         if (! ftruncate($fh, 0)) {
             throw new FileStorageException("Не удалось урезать файл '{$storageFile}'");
@@ -263,5 +260,39 @@ class FileStorage
         $storageFile = $storageDir . DIRECTORY_SEPARATOR . $this->storageName . '.json';
 
         return $storageFile;
+    }
+
+    /**
+     * Кодирует данные в строку JSON
+     * @param mixed $data Данные для преобразования
+     * @return string
+     * @throws FileStorageException
+     */
+    public function toJson($data) :string
+    {
+        $jsonParams = json_encode($data, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+        if ($jsonParams === false) {
+            $errorMessage = json_last_error_msg();
+            throw new FileStorageException("Can't JSON encode ({$errorMessage}): " . print_r($data, true));
+        }
+
+        return $jsonParams;
+    }
+
+    /**
+     * Декодирует строку JSON
+     * @param  string $json Строка JSON
+     * @return mixed
+     * @throws FileStorageException
+     */
+    public function fromJson(string $json)
+    {
+        $data = json_decode($json, $assoc = true);
+        if (is_null($data)) {
+            $errorMessage = json_last_error_msg();
+            throw new FileStorageException("Can't JSON decode ({$errorMessage}): '{$data}'");
+        }
+
+        return $data;
     }
 }
